@@ -1,0 +1,61 @@
+def calculate_total_gp_and_credit(courses: List[Dict]) -> (float, float):
+    """
+    Calculates the total grade points and total credits.
+
+    Args:
+        courses: A list of dictionaries containing course information.
+
+    Returns:
+        A tuple containing total grade points and total credits.
+    """
+    total_credit = 0
+    total_grade_point = 0
+    for course in courses:
+        total_credit += course["credit"]
+        total_grade_point += course["credit"] * course["grade_point"]
+    return total_grade_point, total_credit
+
+def calculate_sgpa(courses: List[Dict]) -> Dict:
+    """
+    Calculates the Semester Grade Point Average (SGPA) and its percentage equivalent.
+
+    Args:
+        courses: A list of dictionaries containing course information.
+
+    Returns:
+        A dictionary containing SGPA as a float and percentage as a float.
+    """
+    total_grade_point, total_credit = calculate_total_gp_and_credit(courses)
+    sgpa = total_grade_point / total_credit if total_credit > 0 else 0
+    percentage = sgpa * 10 - 7.5  # Assuming a 10 point grading scale with 7.5 for average
+
+    return {"SGPA": sgpa, "Percentage": percentage}
+
+def calculate_cgpa(courses: List[Dict]) -> Dict:
+    """
+    Calculates the Cumulative Grade Point Average (CGPA) and its percentage equivalent.
+
+    Args:
+        courses: A list of dictionaries containing course information.
+
+    Returns:
+        A dictionary containing CGPA as a float and percentage as a float.
+    """
+    total_grade_point, total_credit = calculate_total_gp_and_credit(courses)
+    cgpa = total_grade_point / total_credit if total_credit > 0 else 0
+    percentage = cgpa * 10 - 7.5  # Assuming a 10 point grading scale with 7.5 for average
+
+    return {"CGPA": cgpa, "Percentage": percentage}
+
+# Example usage
+courses = [
+  {"credit": 3, "grade_point": 3.75},
+  {"credit": 4, "grade_point": 4.0},
+  {"credit": 2, "grade_point": 3.25},
+]
+
+sgpa_results = calculate_sgpa(courses)
+cgpa_results = calculate_cgpa(courses)
+
+print(f"SGPA: {sgpa_results['SGPA']:.2f} ({sgpa_results['Percentage']:.2f}%)")
+print(f"CGPA: {cgpa_results['CGPA']:.2f} ({cgpa_results['Percentage']:.2f}%)")
