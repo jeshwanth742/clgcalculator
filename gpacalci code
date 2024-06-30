@@ -1,61 +1,55 @@
-def calculate_total_gp_and_credit(courses: List[Dict]) -> (float, float):
-    """
-    Calculates the total grade points and total credits.
+def calculate_sgpa(courses):
+  """
+  This function calculates the Semester Grade Point Average (SGPA)
 
-    Args:
-        courses: A list of dictionaries containing course information.
+  Args:
+      courses: A list of dictionaries containing course information.
+          Each dictionary should have keys:
+              - credit: The credit earned for the course (integer)
+              - grade_point: The grade point earned for the course (float)
 
-    Returns:
-        A tuple containing total grade points and total credits.
-    """
-    total_credit = 0
-    total_grade_point = 0
-    for course in courses:
-        total_credit += course["credit"]
-        total_grade_point += course["credit"] * course["grade_point"]
-    return total_grade_point, total_credit
+  Returns:
+      The calculated SGPA as a float.
+  """
+  total_credit = 0
+  total_grade_point = 0
+  for course in courses:
+    total_credit += course["credit"]
+    total_grade_point += course["credit"] * course["grade_point"]
+  return total_grade_point / total_credit if total_credit > 0 else 0
 
-def calculate_sgpa(courses: List[Dict]) -> Dict:
-    """
-    Calculates the Semester Grade Point Average (SGPA) and its percentage equivalent.
+def calculate_cgpa(courses):
+  """
+  This function calculates the Cumulative Grade Point Average (CGPA)
 
-    Args:
-        courses: A list of dictionaries containing course information.
+  Args:
+      courses: A list of dictionaries containing course information (same format as calculate_sgpa)
 
-    Returns:
-        A dictionary containing SGPA as a float and percentage as a float.
-    """
-    total_grade_point, total_credit = calculate_total_gp_and_credit(courses)
-    sgpa = total_grade_point / total_credit if total_credit > 0 else 0
-    percentage = sgpa * 10 - 7.5  # Assuming a 10 point grading scale with 7.5 for average
-
-    return {"SGPA": sgpa, "Percentage": percentage}
-
-def calculate_cgpa(courses: List[Dict]) -> Dict:
-    """
-    Calculates the Cumulative Grade Point Average (CGPA) and its percentage equivalent.
-
-    Args:
-        courses: A list of dictionaries containing course information.
-
-    Returns:
-        A dictionary containing CGPA as a float and percentage as a float.
-    """
-    total_grade_point, total_credit = calculate_total_gp_and_credit(courses)
-    cgpa = total_grade_point / total_credit if total_credit > 0 else 0
-    percentage = cgpa * 10 - 7.5  # Assuming a 10 point grading scale with 7.5 for average
-
-    return {"CGPA": cgpa, "Percentage": percentage}
+  Returns:
+      The calculated CGPA as a float.
+  """
+  total_credit = 0
+  total_grade_point = 0
+  for course in courses:
+    total_credit += course["credit"]
+    total_grade_point += course["credit"] * course["grade_point"]
+  return total_grade_point / total_credit if total_credit > 0 else 0
 
 # Example usage
 courses = [
-  {"credit": 3, "grade_point": 3.75},
-  {"credit": 4, "grade_point": 4.0},
-  {"credit": 2, "grade_point": 3.25},
+  {"credit": 2, "grade_point": 7},
+  {"credit": 3, "grade_point": 9},
+  {"credit": 3, "grade_point": 8},
+  {"credit": 3, "grade_point": 10},
+  {"credit": 4, "grade_point": 7},
+  {"credit": 2, "grade_point": 9},
+  {"credit": 4, "grade_point": 9},
+  {"credit": 3, "grade_point": 9},
+  {"credit": 1, "grade_point": 9},
 ]
 
-sgpa_results = calculate_sgpa(courses)
-cgpa_results = calculate_cgpa(courses)
+sgpa = calculate_sgpa(courses)
+cgpa = calculate_cgpa(courses)
 
-print(f"SGPA: {sgpa_results['SGPA']:.2f} ({sgpa_results['Percentage']:.2f}%)")
-print(f"CGPA: {cgpa_results['CGPA']:.2f} ({cgpa_results['Percentage']:.2f}%)")
+print(f"SGPA: {sgpa:.2f}")  # Format the output to two decimal places
+print(f"CGPA: {cgpa:.2f}")
